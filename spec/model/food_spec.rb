@@ -5,6 +5,14 @@ RSpec.describe Food, type: :model do
     expect(Food.new(nil)).to_not be_valid
   end
 
+  it 'is not valid with no name attribute given' do
+    args = {
+      description: :goreng,
+      price: 200.0
+    }
+    expect(Food.new(args)).to_not be_valid
+  end
+
   it 'is valid with valid attributes' do
     args = {
       name: :nasigoreng, 

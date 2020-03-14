@@ -37,4 +37,40 @@ RSpec.describe Food, type: :model do
     }
     expect(Food.new(args)).to be_valid
   end
+
+  it 'is not valid with less than 2 name attribute length' do
+    args = {
+      name: :a,
+      description: :goreng,
+      price: 200.0
+    }
+    expect(Food.new(args)).to_not be_valid
+  end
+
+  it 'is valid with more than 2 name attribute length' do
+    args = {
+      name: :aaa,
+      description: :goreng,
+      price: 200.0
+    }
+    expect(Food.new(args)).to be_valid
+  end
+
+  it 'is not valid with more than 500 description attribute length' do
+    args = {
+      name: :nasigoreng,
+      description: Array.new(501, 'a').join,
+      price: 200.0
+    }
+    expect(Food.new(args)).to_not be_valid
+  end
+
+  it 'is valid with less than 500 description attribute length' do
+    args = {
+      name: :nasigoreng,
+      description: Array.new(499, 'a').join,
+      price: 200.0
+    }
+    expect(Food.new(args)).to be_valid
+  end
 end

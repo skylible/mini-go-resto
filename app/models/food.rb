@@ -1,4 +1,5 @@
 class Food < ApplicationRecord
-  validates_presence_of :name
-  validates_presence_of :price
+  validates :name, length: { minimum: 2 }
+  validates :description, length: { maximum: 500 }
+  validates :price, presence: true
 end

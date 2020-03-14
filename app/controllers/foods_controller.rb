@@ -1,5 +1,5 @@
 class FoodsController < ApplicationController
-  before_action :set_food, only: [:show, :edit, :update, :destroy]
+  before_action :set_food, only: %i[show edit update destroy]
 
   # GET /foods
   # GET /foods.json
@@ -42,7 +42,7 @@ class FoodsController < ApplicationController
   def update
     respond_to do |format|
       if @food.update(food_params)
-        format.html { redirect_to @food, notice: 'Food was successfully updated.' }
+        format.html { redirect_to @food, notice: 'Food update success.' }
         format.json { render :show, status: :ok, location: @food }
       else
         format.html { render :edit }

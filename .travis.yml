@@ -1,8 +1,11 @@
-dist: bionic
+dist: trusty
 
-language: nodejs
-node_js:
-  - 12
+language: ruby
+rvm:
+  - 2.5
+  - 2.6
+  - jruby
+  - truffleruby
 
 services:
   - docker
@@ -22,3 +25,13 @@ install:
   - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
   - docker push $DOCKER_HUB_USERNAME/mini-go-resto:$CI_COMMIT
   - ssh $DEPLOYMENT_HOST "docker pull $DOCKER_HUB_USERNAME/mini-go-resto:$CI_COMMIT"
+
+script:
+ — bundle install — jobs=3 — retry=3
+ — bundle exec rake db:create
+ — bundle exec rake db:migrate
+ — bundle exec rspec
+
+before_script:
+  - cp config/database.yml.travis config/database.yml
+  - psql -c 'create database travis_ci_test;' -U postgres
